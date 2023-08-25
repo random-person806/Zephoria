@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <style>
+        /* Your custom CSS styles here */
+        /* ... */
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Your Website Name - Search Results</h1>
+    </header>
+    <div class="container">
+        <div class="search-results">
+            <h2 id="search-title">Top Results for:</h2>
+            <div id="search-results-content">
+                <!-- Search results will be displayed here -->
+            </div>
+        </div>
+    </div>
+    <script>
+        // Get the search query parameter from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchQuery = urlParams.get('query');
+
+        // Update the search title with the search query
+        const searchTitle = document.getElementById('search-title');
+        searchTitle.textContent = `Top Results for: ${searchQuery}`;
+
+        // You can use this function to fetch and display search results from a server
+        // For demonstration purposes, let's just display a message
+        const searchResultsContent = document.getElementById('search-results-content');
+        searchResultsContent.innerHTML = `<p>No results found for "${searchQuery}".</p>`;
+    </script>
+</body>
+</html>

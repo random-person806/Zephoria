@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commission Creator - Zephoria</title>
+    <style>
+        /* Your custom CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            background-image: url('https://via.placeholder.com/20?text= ');
+            background-repeat: repeat;
+            background-position: center;
+            background-size: 20px 20px;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem;
+        }
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .commission-form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 1rem;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .commission-form label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        .commission-form select,
+        .commission-form input[type="text"],
+        .commission-form input[type="number"],
+        .commission-form textarea {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        .commission-form button {
+            padding: 0.5rem 1rem;
+            background-color: #58c9b9;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .back-button {
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Zephoria</h1>
+        <a href="index.html"><button class="back-button">Back</button></a>
+    </header>
+    <div class="container">
+        <div class="commission-form">
+            <h2>Create a New Commission</h2>
+            <form onsubmit="createCommission(event)">
+                <label for="commissionType">What type of commission are you posting?</label>
+                <input type="text" id="commissionType" name="commissionType" placeholder="Example: Art" required>
+
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" name="firstName" required>
+
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" name="lastName" required>
+
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="4" required></textarea>
+
+                <label for="price">Price ($5 minimum)</label>
+                <input type="number" id="price" name="price" min="5" required>
+
+                <label for="image">Image (optional)</label>
+                <input type="file" id="image" name="image">
+
+                <button type="submit">Post</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        // Function to handle commission creation
+        function createCommission(event) {
+            event.preventDefault();
+
+            const commissionType = document.getElementById('commissionType').value;
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const description = document.getElementById('description').value;
+            const price = parseFloat(document.getElementById('price').value);
+            const imageInput = document.getElementById('image');
+            const image = imageInput.files[0]; // Get the selected image file
+
+            // Handle image data (convert to Base64)
+            let imageSrc = 'placeholder_image_url'; // Default placeholder
+            if (image) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    imageSrc = event.target.result; // Set the Base64 image source
+                };
+                reader.readAsDataURL(image);
+            }
+
+            // Update main page content dynamically
+            const categorySection = document.querySelector('.category-section');
+            const commissionButton = document.createElement('button');
+            commissionButton.classList.add('category-button');
+            commissionButton.textContent = commissionType;
+            commissionButton.addEventListener('click', () => {
+                const categoryElement = document.getElementById(commissionType.toLowerCase());
+                categoryElement.scrollIntoView({ behavior: 'smooth' });
+            });
+            categorySection.appendChild(commissionButton);
+
+            const commissionDiv = document.createElement('div');
+            commissionDiv.classList.add('category-section-item');
+            commissionDiv.innerHTML = `<img src="${imageSrc}" alt="${commissionType}" width="40" height="40">
+                                       <p>${price}$ - ${commissionType}</p>`;
+            categorySection.appendChild(commissionDiv);
+        }
+    </script>
+</body>
+</html>
